@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection,addDoc , doc, updateDoc, deleteDoc , onSnapshot} from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { async, Observable } from 'rxjs';
 import { Note } from '../interfaces/note.interface';
 
 @Injectable({
@@ -12,8 +12,10 @@ export class NoteListService {
 
    unsubTrash;   
    unsubNotes;
+   test: boolean = false;
 
    firestore: Firestore = inject(Firestore);
+  normalNotes$: any;
 
   constructor() {
     this.unsubNotes = this.subNoteList();
@@ -86,12 +88,15 @@ export class NoteListService {
     }
   }
 
+  
   subNoteList(){
-    return onSnapshot(this.getNotesRef(), (list) => {
+   return onSnapshot(this.getNotesRef(), (list) => {
       this.normalNotes = [];
       list.forEach(element => {
-        this.normalNotes.push(this.setNoteObject(element.data(),element.id));
+        this.normalNotes.push(this.setNoteObject(element.data(), element.id));
         console.log(this.normalNotes);
+        this.test = true;
+
       })
     });
   }

@@ -20,12 +20,20 @@ export class NoteListComponent {
   status: "notes" | "trash" = "notes";
 
   constructor(private noteService: NoteListService) {
-    this.noteList = this.getList()
+    setInterval(() => {
+      if(this.noteService.test){
+        this.noteList = this.getList()
+        console.log(this.noteList);
+        
+      } 
+    }, 15);
+
+
   }
   
   getList(): Note[]{
     console.log(this.noteService.normalNotes);
-    console.log(this.noteList);
+
     return this.noteService.normalNotes;
   }
 
