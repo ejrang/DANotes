@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Note } from '../interfaces/note.interface';
 import { NoteListService } from '../firebase-services/note-list.service';
 import { FormsModule } from '@angular/forms';
@@ -18,23 +18,27 @@ export class NoteListComponent {
   noteList: Note[] = [];
   favFilter: "all" | "fav" = "all";
   status: "notes" | "trash" = "notes";
+  private noteService = inject(NoteListService);
 
-  constructor(private noteService: NoteListService) {
-    setInterval(() => {
-      if(this.noteService.test){
-        this.noteList = this.getList()
-        console.log(this.noteList);
+  // constructor(private noteService: NoteListService) {
+  //   // setInterval(() => {
+  //   //   if(this.noteService.test){
+  //       this.noteList = this.getList();
+  //       console.log(this.noteList);
         
-      } 
-    }, 15);
+  //   //   } 
+  //   // }, 15);
 
 
-  }
+  // }
   
-  getList(): Note[]{
+  getNoteList(): Note[]{
     console.log(this.noteService.normalNotes);
-
     return this.noteService.normalNotes;
+  }
+
+  getTrashList(){
+    return this.noteService.trashNotes;
   }
 
   changeFavFilter(filter:"all" | "fav"){
